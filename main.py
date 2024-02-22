@@ -14,27 +14,20 @@ def shuffleCards(cards):
     maxLength = len(cards) - 1
     cards1 = []
     
-    for _ in range(13):
+    for _ in range(52):
         index = randint(0, maxLength)
         cards1.append(cards.pop(index))
         maxLength -= 1
         
     return cards1
 
-def makeDeck(heards, diamonds, trevols, picas):
-    deckOfCards = []
-    deckOfCards.append(heards)
-    deckOfCards.append(diamonds)
-    deckOfCards.append(trevols)
-    deckOfCards.append(picas)
-    
-    return deckOfCards
-        
 def printDeck(deckOfCards):
-    for i in range(4):
-        for j in range(13):
-            print(deckOfCards[i][j].getStick(), end=", ")
-        print()
+    for i in range(len(deckOfCards)):
+        print(deckOfCards[i].getValue(), end=", ")
+        if i == 12 or i == 25 or i == 38:
+            print()
+    print()
+        
             
 if __name__ == "__main__":
     
@@ -61,13 +54,10 @@ if __name__ == "__main__":
         picas = makeSticks(pica)
         setValueStick(picas)
         
-        # Revolver Cartas
-        heards = shuffleCards(heards)
-        diamonds = shuffleCards(diamonds)
-        trevols = shuffleCards(trevols)
-        picas = shuffleCards(picas)
+        # Hacer baraja de cartas revueltas
+        deckOfCards = heards + diamonds + trevols + picas
+        deckOfCards = shuffleCards(deckOfCards)
         
-        deckOfCards = makeDeck(heards, diamonds, trevols, picas)
         printDeck(deckOfCards)
         input("para")
         
