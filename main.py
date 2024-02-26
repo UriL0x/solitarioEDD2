@@ -46,6 +46,77 @@ def pushSeveral(deck, num):
 def deleteSomeItems(deck, num):
     for i in range(num-1, -1, -1):
         deck.pop(i)
+        
+def showGameInfo(stacks):
+    
+    # Definir sistema de coordenadas
+    width, height = 40, 20
+    ejeX = [" " for x in range(width)]
+    ejeY = [" " for y in range(height)]
+    pos = [ejeX, ejeY]
+    
+    # Ejecutar he imprimir sistema de coordenadas
+    print("+", (width * "-"), "+")
+    for y in range(height):
+        for x in range(width):
+            drawLine(ejeX, x, 0)
+            
+            if x == 2 and y == 4 and:
+            
+            
+    print("+", (width * "-"), "+")
+
+def drawLine(eje, i, num):
+     if i == num:
+        eje[i] = "|"
+        print(eje[i])
+    
+def stackToStr(stack):
+    stackList = []
+    for i in range(stack.getLength()):
+        stackList.append(str(stack.getTop().getValue()))
+        stack.pop()
+    reversedStr = "".join(reversed(stackList))
+        
+    return reversedStr
+
+def stackToList(stack):
+    stackList = []
+    while not stack.isEmpty():
+        stackList.append(stack.getTop().getValue())
+        stack.pop()
+    
+    return stackList
+
+def checkPos(action):
+    if not action == '0' or action == '1' or action == '2' or action == '3' or action == '4' or action == '5' or action == '6' or action == '7':
+        return False
+    return True
+
+def moveItemTostack(stacks, action, action1):
+    if action1 == '0':
+        popAndPush(stacks, action, action1)
+    elif action1 == '1':
+        popAndPush(stacks, action, action1)
+    elif action1 == '2':
+        popAndPush(stacks, action, action1)
+    elif action1 == '3':
+        popAndPush(stacks, action, action1)
+    elif action1 == '4':
+        popAndPush(stacks, action, action1)
+    elif action1 == '5':
+        popAndPush(stacks, action, action1)
+    elif action1 == '6':
+        popAndPush(stacks, action, action1)
+    elif action1 == '7':
+        popAndPush(stacks, action, action1)
+    
+def popAndPush(stacks, action, action1):
+    i = ord(action)
+    card = stacks[i].getTop()
+    stacks[i].pop()
+    i = ord(action1)
+    stacks[i].push(card)
                  
 if __name__ == "__main__":
     
@@ -65,49 +136,34 @@ if __name__ == "__main__":
         deckOfCards = heards + diamonds + trevols + picas
         deckOfCards = shuffleCards(deckOfCards)
         
-        # Imprimir baraja de cartas (PRUEBAS)
-        printDeck(deckOfCards)
-        input("para")
-        
-        # Crear pila1
+        # Crear pilas
         stack1 = pushSeveral(deckOfCards, int(1))
-        stack1.printCardStack()
-        
-        # Crear pila2
         stack2 = pushSeveral(deckOfCards, int(2))
-        stack2.printCardStack()
-        
-        # Crear pila3
         stack3 = pushSeveral(deckOfCards, int(3))
-        stack3.printCardStack()
-        
-        # Crear pila4
         stack4 = pushSeveral(deckOfCards, int(4))
-        stack4.printCardStack()
-        
-        # Crear pila5
         stack5 = pushSeveral(deckOfCards, int(5))
-        stack5.printCardStack()
-        
-        # Crear pila6
         stack6 = pushSeveral(deckOfCards, int(6))
-        stack6.printCardStack()
-        
-        # Crear pila7
         stack7 = pushSeveral(deckOfCards, int(7))
-        stack7.printCardStack()
-        
-        print("_______________")
-        printDeck(deckOfCards)
-        print("len: ", len(deckOfCards))
         
         # Crear pila 0 (cartas sobrantes)
-        print("PILA0:")
         stack0 = pushSeveral(deckOfCards, int(24))
-        stack0.printCardStack()
-        print()
         
-        input("stop")
+        deckStacks = [stack0, stack1, stack2, stack3, stack4, stack5, stack6, stack7]
+        while True:
+            showGameInfo(deckStacks)
+            action = input("[SELECCIONE UNA PILA]")
+            system("cls")
+            showGameInfo(deckStacks)
+            action1 = input("[SELECCIONE LA PILA A DONDE MOVER LA CARTA]")
+            system("cls")
+            
+            if checkPos(action) or checkPos(action1):
+                showGameInfo(deckStacks)
+                print("[!]INGRESE UN DATO VALIDO")
+            else:
+                moveItemTostack(deckStacks, action, action1)
+                
+            system("cls")
     
     
 

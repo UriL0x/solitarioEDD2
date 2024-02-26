@@ -31,16 +31,27 @@ class Stack:
             return self.elements[self.top]
         else:
             print("Error: La pila está vacía")
+            
+    def getLength(self):
+        return self.top + 1
 
     def printStack(self):
-        print("Contenido de la pila:", end=" ")
         for i in range(self.top + 1):
             print(self.elements[i], end=", ")
         print()
     
-    def printCardStack(self):
-        print("Pila: ", end=" ")
+    def printCardStack(self, eje):
         for i in range(self.top + 1):
-            print(self.elements[i].getValue(), end=", ")
+            if eje == "x":
+                print(self.elements[i].getValue(), end=", ")
+            elif eje == "y":
+                print(self.elements[i].getValue())
+            else:
+                print("[!]ERROR: parametro invalido")
+                break
         print()
+    
+        
+
+        
     
