@@ -50,26 +50,34 @@ def deleteSomeItems(deck, num):
 def showGameInfo(stacks):
     
     # Definir sistema de coordenadas
-    width, height = 40, 20
-    ejeX = [" " for x in range(width)]
-    ejeY = [" " for y in range(height)]
-    pos = [ejeX, ejeY]
-    
-    # Ejecutar he imprimir sistema de coordenadas
-    print("+", (width * "-"), "+")
-    for y in range(height):
-        for x in range(width):
-            drawLine(ejeX, x, 0)
-            
-            if x == 2 and y == 4 and:
-            
-            
-    print("+", (width * "-"), "+")
+    width, height = 20, 20
 
-def drawLine(eje, i, num):
-     if i == num:
-        eje[i] = "|"
-        print(eje[i])
+    # Ejecutar he imprimir sistema de coordenadas
+    print("+", ((width - 2) * "-"), "+")
+    
+    stacks[0].getTop().printCard() 
+    print()
+    stacks[1].getTop().printCard() 
+    print()
+    stacks[2].getTop().printCard() 
+    print() 
+    stacks[3].getTop().printCard() 
+    print()
+    stacks[4].getTop().printCard() 
+    print()
+    stacks[5].getTop().printCard() 
+    print()
+    stacks[6].getTop().printCard() 
+    print()
+    stacks[7].getTop().printCard() 
+    print()    
+    
+    print("+", ((width - 2) * "-"), "+")
+    
+def checkPos(cor, num):
+    if cor in num:
+        return True
+    return False
     
 def stackToStr(stack):
     stackList = []

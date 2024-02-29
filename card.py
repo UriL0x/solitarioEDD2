@@ -24,3 +24,25 @@ class Card:
         return self.stick
     def setStick(self, stick):
         self.stick = stick
+        
+    def printCard(self):
+        if self.color == "red":
+            redIcon =  "\033[91m{}\033[0m".format(self.icon)
+            redValue = "\033[91m{}\033[0m".format(self.value)
+            print("+------+\n"
+              "|  {}  |\n"
+              "|  {}  |\n"
+              "+------+".format(redIcon, redValue))
+        else:
+            blueIcon =  "\033[94m{}\033[0m".format(self.icon)
+            blueValue = "\033[94m{}\033[0m".format(self.value)  
+            print("+------+\n"
+              "|  {}  |\n"
+              "|  {}  |\n"
+              "+------+".format(blueIcon, blueValue))
+    
+        
+  
+
+
+            
