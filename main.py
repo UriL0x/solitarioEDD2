@@ -48,36 +48,28 @@ def deleteSomeItems(deck, num):
         deck.pop(i)
         
 def showGameInfo(stacks):
-    
-    # Definir sistema de coordenadas
-    width, height = 20, 20
+    matriz = [[" " for _ in range(30)] for _ in range(20)]
 
-    # Ejecutar he imprimir sistema de coordenadas
-    print("+", ((width - 2) * "-"), "+")
+    # Asignar cartas a sus posisiones
+    matriz[1][1] = stacks[0].getTop().getCard()
+    matriz[1][5] = stacks[1].getTop().getCard()
+    matriz[1][7] = stacks[2].getTop().getCard()
+    matriz[1][9] = stacks[2].getTop().getCard()
+    matriz[1][11] = stacks[4].getTop().getCard()
+    matriz[1][13] = stacks[5].getTop().getCard()
+    matriz[1][15] = stacks[6].getTop().getCard()
+    matriz[1][17] = stacks[7].getTop().getCard()
     
-    stacks[0].getTop().printCard() 
-    print()
-    stacks[1].getTop().printCard() 
-    print()
-    stacks[2].getTop().printCard() 
-    print() 
-    stacks[3].getTop().printCard() 
-    print()
-    stacks[4].getTop().printCard() 
-    print()
-    stacks[5].getTop().printCard() 
-    print()
-    stacks[6].getTop().printCard() 
-    print()
-    stacks[7].getTop().printCard() 
-    print()    
-    
-    print("+", ((width - 2) * "-"), "+")
-    
-def checkPos(cor, num):
-    if cor in num:
-        return True
-    return False
+    # Imprimir la matriz con los elementos asignados utilizando dos bucles
+    print("+", (((40-2) * 2) * "-"), "+")
+    for i in range(len(matriz)):
+        print("|", end='')
+        for j in range(len(matriz[i])):
+            if j == 2:
+                matriz[1][2] = "|"  
+            print(matriz[i][j], end=" ")
+        print()
+    print("+", (((40-2) * 2) * "-"), "+")
     
 def stackToStr(stack):
     stackList = []
