@@ -1,3 +1,4 @@
+import copy
 from card import Card
 from stack import Stack
 from os import system
@@ -5,17 +6,19 @@ from random import randint
 
 def makeStickDeck(color, icon, stick):
     card = Card(color, icon, stick)
-    cards = makeSticks(card)
+    cards = [Card(card.color, card.icon, card.stick) for _ in range(13)]
     setValueStick(cards)
     
     return cards
 
-def makeSticks(card):
-    return [Card(card.color, card.icon, card.stick) for _ in range(13)]
-
 def setValueStick(cards):
     for i in range(13):
-        cards[i].setValue(i + 1)
+        if i < 9:
+            value = "0" + str((i + 1))
+        else:
+            value = str(i + 1)
+        cards[i].setValue(value)
+
 
 def shuffleCards(cards):
     maxLength = len(cards) - 1
@@ -27,13 +30,6 @@ def shuffleCards(cards):
         maxLength -= 1
         
     return cards1
-
-def printDeck(deckOfCards):
-    for i in range(len(deckOfCards)):
-        print(deckOfCards[i].getValue(), end=", ")
-        if i == 12 or i == 25 or i == 38:
-            print()
-    print()
 
 def pushSeveral(deck, num):
     stack = Stack()
@@ -48,52 +44,47 @@ def deleteSomeItems(deck, num):
         deck.pop(i)
         
 def showGameInfo(stacks):
-    matriz = [[" " for _ in range(30)] for _ in range(20)]
-
-    # Asignar cartas a sus posisiones
-    matriz[1][1] = stacks[0].getTop().getCard()
-    matriz[1][5] = stacks[1].getTop().getCard()
-    matriz[1][7] = stacks[2].getTop().getCard()
-    matriz[1][9] = stacks[2].getTop().getCard()
-    matriz[1][11] = stacks[4].getTop().getCard()
-    matriz[1][13] = stacks[5].getTop().getCard()
-    matriz[1][15] = stacks[6].getTop().getCard()
-    matriz[1][17] = stacks[7].getTop().getCard()
+    # Pila0 (pila para agarrar cartas)
+    print("+", ((50 * 2) * "-"), "+")
+    print("| Pila0 >> " + getCardStack(stack0, 0))
+    print("+", ((50 * 2) * "-"), "+")
     
-    # Imprimir la matriz con los elementos asignados utilizando dos bucles
-    print("+", (((40-2) * 2) * "-"), "+")
-    for i in range(len(matriz)):
-        print("|", end='')
-        for j in range(len(matriz[i])):
-            if j == 2:
-                matriz[1][2] = "|"  
-            print(matriz[i][j], end=" ")
-        print()
-    print("+", (((40-2) * 2) * "-"), "+")
+    # Resto de pilas
+    print("| Pila1 >> " + getCardStack(stacks[1], 1))
+    print("| Pila2 >> " + getCardStack(stacks[2], 2))
+    print("| Pila3 >> " + getCardStack(stacks[3], 3))
+    print("| Pila4 >> " + getCardStack(stacks[4], 4))
+    print("| Pila5 >> " + getCardStack(stacks[5], 5))
+    print("| Pila6 >> " + getCardStack(stacks[6], 6))
+    print("| Pila7 >> " + getCardStack(stacks[7], 7))
+    print("+", ((50 * 2) * "-"), "+")
     
-def stackToStr(stack):
-    stackList = []
-    for i in range(stack.getLength()):
-        stackList.append(str(stack.getTop().getValue()))
-        stack.pop()
-    reversedStr = "".join(reversed(stackList))
+    # Mostrar pilas completadas
+    print("| <3={} <>={} -3={} ->={}".format(1,1,1,1))
+    print("+", ((50 * 2) * "-"), "+")
+    print(stack7.getLength())
+    print(stack7.getTop())
+    
+def getCardStack(stack, num):
+    length = min(10, stack.getLength())
+    
+    stackStr = str()
+    if not stack.isEmpty():
+        stack1 = copy.deepcopy(stack)
+        for i in range(length):
+            stack1.getTop().setVisibility(True)
+            stackStr += str(stack1.getTop().getCard())
+            stack1.pop()
+        return stackStr
+            
+    return " "
         
-    return reversedStr
-
-def stackToList(stack):
-    stackList = []
-    while not stack.isEmpty():
-        stackList.append(stack.getTop().getValue())
-        stack.pop()
-    
-    return stackList
-
 def checkPos(action):
     if not action == '0' or action == '1' or action == '2' or action == '3' or action == '4' or action == '5' or action == '6' or action == '7':
         return False
     return True
 
-def moveItemTostack(stacks, action, action1):
+def playGameOptions(stacks, action, action1):
     if action1 == '0':
         popAndPush(stacks, action, action1)
     elif action1 == '1':
@@ -132,7 +123,7 @@ if __name__ == "__main__":
         trevols = makeStickDeck("black", "-3", "clubs")    
         picas = makeStickDeck("black", "->", "spades")
     
-        # Hacer baraja de solitario de cartas revueltas
+        # Hacer baraja de solitario con cartas revueltas
         deckOfCards = heards + diamonds + trevols + picas
         deckOfCards = shuffleCards(deckOfCards)
         
@@ -148,20 +139,21 @@ if __name__ == "__main__":
         # Crear pila 0 (cartas sobrantes)
         stack0 = pushSeveral(deckOfCards, int(24))
         
-        deckStacks = [stack0, stack1, stack2, stack3, stack4, stack5, stack6, stack7]
+        stacks = [stack0, stack1, stack2, stack3, stack4, stack5, stack6, stack7]
         while True:
-            showGameInfo(deckStacks)
+            showGameInfo(stacks)
             action = input("[SELECCIONE UNA PILA]")
-            system("cls")
-            showGameInfo(deckStacks)
-            action1 = input("[SELECCIONE LA PILA A DONDE MOVER LA CARTA]")
-            system("cls")
             
-            if checkPos(action) or checkPos(action1):
-                showGameInfo(deckStacks)
-                print("[!]INGRESE UN DATO VALIDO")
-            else:
-                moveItemTostack(deckStacks, action, action1)
+            
+            #system("cls")
+            #showGameInfo(deckStacks)
+            #action1 = input("[SELECCIONE LA PILA A DONDE MOVER LA CARTA]")
+            #system("cls")
+            
+            #if checkPos(action) or checkPos(action1):
+            #    showGameInfo(deckStacks)
+            #    print("[!]INGRESE UN DATO VALIDO")
+            #    playGameOptions(deckStacks, action, action1)
                 
             system("cls")
     

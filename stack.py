@@ -40,16 +40,8 @@ class Stack:
             print(self.elements[i], end=", ")
         print()
     
-    def printCardStack(self, eje):
-        for i in range(self.top + 1):
-            if eje == "x":
-                print(self.elements[i].getValue(), end=", ")
-            elif eje == "y":
-                print(self.elements[i].getValue())
-            else:
-                print("[!]ERROR: parametro invalido")
-                break
-        print()
+        
+
     
         
 
