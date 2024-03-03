@@ -59,11 +59,14 @@ def showGameInfo(stacks):
     print("| Pila7 >> " + getCardStack(stacks[7], 7))
     print("+", ((50 * 2) * "-"), "+")
     
-    # Mostrar pilas completadas
-    print("| <3={} <>={} -3={} ->={}".format(1,1,1,1))
+    # Mostrar pilas madre completadas pilas completadas
+    heard = stacks[8].getTop().getCard()
+    diamond = stacks[9].getTop().getCard()
+    clubs = stacks[10].getTop().getCard()
+    spades = stacks[11].getTop().getCard()
+        
+    print("| heards[8] >> {} diamonds[9] >> {} clubs[10] >> {} spades[11] >> {}".format(heard, diamond, clubs, spades))
     print("+", ((50 * 2) * "-"), "+")
-    print(stack7.getLength())
-    print(stack7.getTop())
     
 def getCardStack(stack, num):
     length = min(10, stack.getLength())
@@ -72,50 +75,92 @@ def getCardStack(stack, num):
     if not stack.isEmpty():
         stack1 = copy.deepcopy(stack)
         for i in range(length):
-            stack1.getTop().setVisibility(True)
             stackStr += str(stack1.getTop().getCard())
             stack1.pop()
         return stackStr
             
     return " "
         
-def checkPos(action):
-    if not action == '0' or action == '1' or action == '2' or action == '3' or action == '4' or action == '5' or action == '6' or action == '7':
-        return False
-    return True
-
-def playGameOptions(stacks, action, action1):
-    if action1 == '0':
-        popAndPush(stacks, action, action1)
-    elif action1 == '1':
-        popAndPush(stacks, action, action1)
-    elif action1 == '2':
-        popAndPush(stacks, action, action1)
-    elif action1 == '3':
-        popAndPush(stacks, action, action1)
-    elif action1 == '4':
-        popAndPush(stacks, action, action1)
-    elif action1 == '5':
-        popAndPush(stacks, action, action1)
-    elif action1 == '6':
-        popAndPush(stacks, action, action1)
-    elif action1 == '7':
-        popAndPush(stacks, action, action1)
+def selectStack(message, stacks):
+    showGameInfo(stacks)
+    action = input(message)
+    system("cls")
     
-def popAndPush(stacks, action, action1):
-    i = ord(action)
-    card = stacks[i].getTop()
-    stacks[i].pop()
-    i = ord(action1)
-    stacks[i].push(card)
+    return action
+
+def invalidAction(message, stacks):
+    showGameInfo(stacks)
+    input(message)
+    system("cls")
+        
+def checkStack(stacks, action, mode):
+    if mode == '1':
+        if action == '0' or action == '1' or action == '2'  or action == '3'  or action == '4'  or action == '5'  or action == '6'  or action == '7':
+            return True
+        else:
+            False
+        
+    if mode == '2':
+        if action == '1' or action == '2'  or action == '3'  or action == '4'  or action == '5'  or action == '6'  or action == '7':
+            return True
+        elif action == '8' or action == '9' or action == '10' or action == '11':
+            if checkStacksCompleted(stacks):
+                return False
+            return True
+        else:
+            return False
+
+def checkStacksCompleted(stacks):
+    if stacks[8].getLength() >= 12 and stacks[9].getLength() >= 12 and stacks[10].getLength() >= 12 and stacks[11].getLength() >= 12:
+        return True
+    else:
+        return False
+
+def checkCardAtributes(stack, stack1):
+    if stack.getTop().getValue() < stack1.getTop().getValue() and stack.getTop().getColor() != stack1.getTop().getColor():
+        return True
+    else:
+        return False
+    
+def checkAllAtributes(stack, stackMother):
+    card = stack.getTop()
+    cardMother = stackMother.getTop()
+   
+    if card.getValue() < cardMother.getValue():
+        if card.getStick() == cardMother.getStick():
+            if card.getColor() == cardMother.getColor():
+                return True
+            else:
+                return False
+        else:
+            return False
+    else:
+        return False
+
+def popAndPush(stack1, stack2):
+    card = stack1.getTop()
+    stack1.pop()
+    stack2.push(card)
+    system("cls")
                  
 if __name__ == "__main__":
     
     print("//Solitario//")
-    input("[INGRESE ENTER PARA JUGAR]")
+    option = input("a) Jugar\n"
+          "b) Como se juega?")
+    system("cls")
     
-    endGame = False
-    while not endGame:
+    if option == "b":
+        print("Este juego tiene algo de especial\n"
+              "las cartas estan d emanera horizontal\n"
+              "para seleccionar una columa se ingresa el numero de esta\n")
+        print("Pila4 >> [*|*] [*|*] [*|*] [*|*] [*|*]")
+        print("\nPor lo demas se juega como el solitario normal \n"
+              "Las cartas van de derecha a izquierda")
+        input("[ENTER PARA JUGAR]")
+    
+    endProgram = False
+    while not endProgram:
         
         # Crear palos
         heards = makeStickDeck("red", "<3", "hearts")    
@@ -139,23 +184,68 @@ if __name__ == "__main__":
         # Crear pila 0 (cartas sobrantes)
         stack0 = pushSeveral(deckOfCards, int(24))
         
-        stacks = [stack0, stack1, stack2, stack3, stack4, stack5, stack6, stack7]
-        while True:
-            showGameInfo(stacks)
-            action = input("[SELECCIONE UNA PILA]")
+        # Crear pilas madre de cada palo
+        card1 = Card("red", "<3", "hearts")
+        card1.setValue(int(14))
+        motherHeard = Stack()
+        motherHeard.push(card1)
+        card2 = Card("red", "<>", "diamonds")
+        card2.setValue(int(14))
+        motherDiamond = Stack()
+        motherDiamond.push(card2)
+        card3 = Card("black", "-3", "clubs") 
+        card3.setValue(int(14))
+        motherClubs = Stack()
+        motherClubs.push(card3)
+        card4 = Card("black", "->", "spades")
+        card4.setValue(int(14))
+        motherSpades = Stack()
+        
+        
+        # Meter todas la pilas en un lista
+        stacks = [stack0, stack1, stack2, stack3, stack4, stack5, stack6, stack7, motherHeard, motherDiamond, motherClubs, motherSpades]
+        
+        playGame = True
+        while playGame:
             
+            # Seleccionar primera pila
+            while True:
+                action = selectStack("[SELECCIONA LA PRIMERA PILA]", stacks)
+                if checkStack(stacks, action, '1'):
+                    break    
+                else:
+                    invalidAction("[NUMERO DE PILA INVALIDA!!!]", stacks)
             
-            #system("cls")
-            #showGameInfo(deckStacks)
-            #action1 = input("[SELECCIONE LA PILA A DONDE MOVER LA CARTA]")
-            #system("cls")
+            # Seleccionar segunda pila
+            cardToMove = stacks[int(action)].getTop().getCard()
+            message = str("Carta a mover [PILA" + action + "]>>" + cardToMove + "\n[SELECCIONA LA SEGUNDA PILA]")
+            while True:
+                action1 = selectStack(message, stacks)
+                if checkStack(stacks, action1, '2'):
+                    break
+                else:
+                    invalidAction("[NUMERO DE PILA INVALIDA!!!]", stacks)
             
-            #if checkPos(action) or checkPos(action1):
-            #    showGameInfo(deckStacks)
-            #    print("[!]INGRESE UN DATO VALIDO")
-            #    playGameOptions(deckStacks, action, action1)
+            # Llenar pilas madres de cartas
+            if action1 == '8' or action1 == '9' or action1 == '10' or action1 == '11':       
+                if checkAllAtributes(stacks[int(action)], stacks[int(action1)]):
+                    stacks[int(action1)].push(stacks[int(action)])
+                else:
+                    invalidAction("[ACCION INVALIDA!!!]", stacks)
+            
+            # Llenar resto de pilas
+            else:
+                if checkCardAtributes(stacks[int(action)], stacks[int(action1)]):
+                    popAndPush(stacks[int(action)], stacks[int(action1)])    
+                else:
+                    invalidAction("[ACCION INVALIDA!!!]", stacks)
+                    
+            # Comprobar si todas la pila madre estan completas
+            if checkStacksCompleted(stacks):
+                print("YOU WIN!!!!")
+                playGame = False
                 
-            system("cls")
+            
     
     
 

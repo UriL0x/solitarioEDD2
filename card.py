@@ -4,7 +4,7 @@ class Card:
         self.value = 0  
         self.icon = icon
         self.stick = stick
-        self.visibility = False
+        self.visibility = True
 
     def getColor(self):
         return self.color

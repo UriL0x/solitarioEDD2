@@ -18,13 +18,13 @@ class Stack:
             self.top += 1
             self.elements[self.top] = element
         else:
-            print("Error: La pila está llena")
+            print("Error: La pila está vacía")
 
     def pop(self):
         if not self.isEmpty():
             self.top -= 1
         else:
-            print("Error: La pila está vacía")
+           print("Error: La pila está vacía") 
 
     def getTop(self):
         if not self.isEmpty():
