@@ -200,6 +200,7 @@ if __name__ == "__main__":
         card4 = Card("black", "->", "spades")
         card4.setValue(int(14))
         motherSpades = Stack()
+        motherSpades.push(card4)
         
         # Meter todas la pilas en un lista
         stacks = [stack0, stack1, stack2, stack3, stack4, stack5, stack6, stack7, motherHeard, motherDiamond, motherClubs, motherSpades]
